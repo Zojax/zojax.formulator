@@ -1,0 +1,36 @@
+=======
+CHANGES
+=======
+
+0.3.2 (Unreleased)
+------------------
+
+
+0.3.1 (2009-08-23)
+------------------
+
+- Update tests
+
+
+0.3.0 (2009-08-19)
+------------------
+
+- Create 'Formulator' product 
+
+- Content type type cant extend IContentType interface
+
+
+0.2.0 (2009-08-12)
+------------------
+
+- Update test for chameleon enabled setup
+
+
+0.1.0 (2009-06-25)
+------------------
+
+- Capability added (Extensions)
+
+- Form body correct html source display
+
+- Initial import

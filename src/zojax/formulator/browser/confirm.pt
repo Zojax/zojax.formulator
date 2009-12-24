@@ -1,0 +1,6 @@
+<tal:block tal:content="structure pageelement:content.title" />
+<tal:block tal:content="structure pageelement:content.description" />
+<br />
+<tal:block content="structure context/confirm/cooked" />
+<br /><br />
+<a href="../">Return to main page</a>
