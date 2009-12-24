@@ -1,0 +1,111 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.formulator">
+
+  <permission
+     id="zojax.AddFormulator"
+     title="Add formulator"
+     description="Allow add new user configurable forms to portal." />
+
+  <zojax:product
+     name="zojax-formulator"
+     title="Formulator"
+     schema=".interfaces.IFormulatorProduct"
+     description="User configurable forms."
+     configurable="false" />
+
+  <registerIn registry="zojax.product.zojax-formulator">
+    <!-- form -->
+    <zojax:content
+       title="Form"
+       name="formulator.form"
+       schema=".interfaces.IForm"
+       contains=".interfaces.IGroupType
+		 .interfaces.IFormDataStorageType
+		 zojax.persistent.fields.interfaces.IFieldType"
+       description="User configurable form"
+       type="zojax.content.type.interfaces.IActivePortalType
+	     zojax.content.space.interfaces.IContentSpaceType
+	     zojax.persistent.fields.interfaces.IFieldsContainer"
+       class=".form.Form"
+       permission="zojax.AddFormulator" />
+    
+    <class class=".form.Form">
+      <implements interface="zojax.content.type.interfaces.IAnnotatableOrder" />
+      <implements interface="zojax.content.type.interfaces.IContainerContentsAware" />
+      <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+      <implements interface="zojax.content.type.interfaces.ITitleBasedName" />
+
+      <require
+	 permission="zope.View"
+	 interface=".interfaces.IForm
+		    zope.app.container.interfaces.IReadContainer" />
+      <require
+	 permission="zojax.ModifyContent"
+	 attributes="updateOrder"
+	 set_schema=".interfaces.IForm"
+	 interface="zope.app.container.interfaces.IWriteContainer" />
+    </class>
+
+    <!-- group -->
+    <zojax:content
+       title="Fields Group"
+       name="formulator.group"
+       schema=".interfaces.IGroup"
+       type=".interfaces.IGroupType"
+       class=".form.Group" />
+    
+    <class class=".form.Group">
+      <require
+	 permission="zope.View"
+	 interface=".interfaces.IGroup" />
+      <require
+	 permission="zojax.ModifyContent"
+	 set_schema=".interfaces.IGroup" />
+    </class>
+    
+    <!-- mail data storage -->
+    <zojax:content
+       title="Mail Data Storage"
+       name="formulator.mailstorage"
+       schema=".interfaces.IMailDataStorage"
+       type=".interfaces.IFormDataStorageType"
+       class=".mailstorage.MailDataStorage" />
+    
+    <class class=".mailstorage.MailDataStorage">
+      <require
+	 permission="zope.View"
+	 interface="zojax.content.type.interfaces.IItem
+		    .interfaces.IMailDataStorage" />
+      <require
+	 permission="zojax.ModifyContent"
+	 set_schema=".interfaces.IMailDataStorage" />
+    </class>
+    
+    <!-- vocabulary -->
+    <utility
+       name="zojax.formulator-formFields"
+       factory=".vocabulary.FormFieldsVocabulary" />
+    
+    <!-- permissions -->
+    <zojax:permission
+       permission="zojax.AddFormulator"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+    
+    <zojax:contentpermission
+       for="zojax.content.space.interfaces.IContentSpace"
+       contenttype="formulator.form"
+       permission="zojax.AddFormulator"
+       managepermission="zojax.ManageContentPermission"
+       class="zojax.content.permissions.permission.ContentPermission"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+    
+    <!-- browser views -->
+    <include package=".browser" />
+  </registerIn>
+    
+  <!-- capability -->
+  <include file="capability.zcml" />
+
+</configure>
