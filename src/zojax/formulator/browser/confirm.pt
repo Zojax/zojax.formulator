@@ -3,4 +3,4 @@
 <br />
 <tal:block content="structure context/confirm/cooked" />
 <br /><br />
-<a href="../">Return to main page</a>
+<a href="../" i18n:translate="">Return to main page</a>
